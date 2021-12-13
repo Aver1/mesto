@@ -7,4 +7,4 @@
 Сайт **Адаптивен** и может использоваться на различных устройствах
 ---
 #### Ссылка GitHub Pages
-https://aver1.github.io/russian-travel/index.html
+https://aver1.github.io/mesto/
