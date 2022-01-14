@@ -9,7 +9,7 @@
   line-height: 22px;
   text-align: center;
   cursor: pointer;
-  transition: .3s;
+  transition: opacity .3s;
   margin-bottom: 37px;
   margin-top: 18px;
   border: none;
