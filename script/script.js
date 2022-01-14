@@ -62,8 +62,9 @@ initialCards.forEach(function (item) {
 function addCard(item) {
   const cardTemplate = document.querySelector('#card-template').content; 
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-  cardElement.querySelector('.card__image').src = item.link;
-  cardElement.querySelector('.card__image').alt = item.name;
+  const cardElem = cardElement.querySelector('.card__image');
+  cardElem.src = item.link;
+  cardElem.alt = item.name;
   cardElement.querySelector('.card__title').textContent = item.name;
   // card Like Button
   cardElement.querySelector('.card__like').addEventListener('click', (event) => {
@@ -72,15 +73,15 @@ function addCard(item) {
   // Card Delete button
   cardElement.querySelector('.card__delete').addEventListener('click', (event) => {
     const card = event.target;
-    card.parentElement.remove();
+    card.closest('div').remove();
   });
   // card Image inspector
-  cardElement.querySelector('.card__image').addEventListener('click', (event) => {
+  cardElem.addEventListener('click', (event) => {
     const card = event.target;
     popupImage.src = card.src;
     popupImage.alt = card.alt;
     popupImageCaption.textContent = card.alt;
-    popupCardImage.classList.add('popup_opened');
+    openPopup(popupCardImage);
   });
   return cardElement;
 }
@@ -90,12 +91,11 @@ function renderCard(data) {
   cards.prepend(card);
 }
 
-function popupToggle(elem) {
+function openPopup(elem) {
   elem.classList.add('popup_opened');
-  getInfo();
 }
 
-function popupClose(elem) {
+function closePopup(elem) {
   elem.classList.remove('popup_opened');
 }
 
@@ -108,22 +108,22 @@ function editFormSubmitHandler (evt) {
   evt.preventDefault();
   profileName.textContent = popupName.value;
   profileAbout.textContent = popupAbout.value;
-  popupClose(popupEditProfile);
+  closePopup(popupEditProfile);
 }
 
 function addFormSubmitHandler (evt) {
   evt.preventDefault();
   renderCard({name: inputName.value, link: inputLink.value});
 
-  popupClose(popupAddCard);
+  closePopup(popupAddCard);
   addForm.reset(); 
 }
 
 
-popupEditButton.addEventListener('click', () => popupToggle(popupEditProfile));
-popupCloseEditButton.addEventListener('click', () => popupClose(popupEditProfile));
-popupAddCardButton.addEventListener('click', () => popupToggle(popupAddCard));
-popupCloseCardButton.addEventListener('click', () => popupClose(popupAddCard));
-popupCloseImageButton.addEventListener('click', () => popupClose(popupCardImage))
+popupEditButton.addEventListener('click', () => {openPopup(popupEditProfile); getInfo()});
+popupCloseEditButton.addEventListener('click', () => closePopup(popupEditProfile));
+popupAddCardButton.addEventListener('click', () => openPopup(popupAddCard));
+popupCloseCardButton.addEventListener('click', () => closePopup(popupAddCard));
+popupCloseImageButton.addEventListener('click', () => closePopup(popupCardImage))
 editForm.addEventListener('submit', editFormSubmitHandler);
 addForm.addEventListener('submit', addFormSubmitHandler);
