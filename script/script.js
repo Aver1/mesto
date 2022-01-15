@@ -73,14 +73,13 @@ function addCard(item) {
   // Card Delete button
   cardElement.querySelector('.card__delete').addEventListener('click', (event) => {
     const card = event.target;
-    card.closest('div').remove();
+    card.closest('.card').remove();
   });
-  // card Image inspector
-  cardElem.addEventListener('click', (event) => {
-    const card = event.target;
-    popupImage.src = card.src;
-    popupImage.alt = card.alt;
-    popupImageCaption.textContent = card.alt;
+  // card Image inspector 
+  cardElem.addEventListener('click', () => {
+    popupImage.src = item.link;
+    popupImage.alt = item.name;
+    popupImageCaption.textContent = item.name;
     openPopup(popupCardImage);
   });
   return cardElement;
