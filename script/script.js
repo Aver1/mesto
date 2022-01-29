@@ -103,26 +103,46 @@ function getInfo() {
   popupAbout.value = profileAbout.textContent;
 }
 
-function editFormSubmitHandler (evt) {
-  evt.preventDefault();
-  profileName.textContent = popupName.value;
-  profileAbout.textContent = popupAbout.value;
-  closePopup(popupEditProfile);
+function editFormSubmitHandler () {
+    profileName.textContent = popupName.value;
+    profileAbout.textContent = popupAbout.value;
+    closePopup(popupEditProfile);
 }
 
-function addFormSubmitHandler (evt) {
-  evt.preventDefault();
+function addFormSubmitHandler () {
   renderCard({name: inputName.value, link: inputLink.value});
-
   closePopup(popupAddCard);
-  addForm.reset(); 
+  addForm.reset();
+  enableValidation();
 }
 
+// Add close on overlay click 
+const popup = document.querySelectorAll('.popup');
+popup.forEach((elem) => {
+  elem.addEventListener('click', (evt) => {closePopup(evt.target)});
+});
+
+
+//close popup using escape 
+document.addEventListener('keydown', (evt) => {
+  if (popupEditProfile.classList.contains('popup_opened') && evt.key === "Escape") {
+    closePopup(popupEditProfile);
+  };
+  if (popupAddCard.classList.contains('popup_opened') && evt.key === "Escape") {
+    closePopup(popupAddCard);
+  };
+  if (popupCardImage.classList.contains('popup_opened') && evt.key === "Escape") {
+    closePopup(popupCardImage);
+  };
+});
 
 popupEditButton.addEventListener('click', () => {openPopup(popupEditProfile); getInfo()});
 popupCloseEditButton.addEventListener('click', () => closePopup(popupEditProfile));
 popupAddCardButton.addEventListener('click', () => openPopup(popupAddCard));
 popupCloseCardButton.addEventListener('click', () => closePopup(popupAddCard));
-popupCloseImageButton.addEventListener('click', () => closePopup(popupCardImage))
+popupCloseImageButton.addEventListener('click', () => closePopup(popupCardImage));
 editForm.addEventListener('submit', editFormSubmitHandler);
 addForm.addEventListener('submit', addFormSubmitHandler);
+
+// getinfo need onload page for toggleButtonState func
+getInfo();
