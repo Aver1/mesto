@@ -87,7 +87,6 @@ function renderCard(data) {
 function closeByEscape(evt) {
   if (evt.key === 'Escape') {
     const openedPopup = document.querySelector('.popup_opened');
-    cleanErrorMessages();
     return closePopup(openedPopup);
   };
 };
@@ -120,7 +119,7 @@ function addFormSubmitHandler () {
   resetSubmitButton(addForm);
 }
 
-// clean input on close
+// clean input
 function cleanErrorMessages () {
   const curretForm = document.querySelector('.popup_opened');
   const spans = curretForm.querySelectorAll('.popup__input-error');
@@ -152,19 +151,17 @@ const popups = document.querySelectorAll('.popup');
 popups.forEach((popup) => {
   popup.addEventListener('click', (evt) => {
     if (evt.target.classList.contains('popup_opened')) {
-      cleanErrorMessages();
       closePopup(popup);
     };
     if (evt.target.classList.contains('popup__close-btn')) {
-      cleanErrorMessages();
       closePopup(popup);
     };
   });
 });
 
 // EvtListeners
-popupEditButton.addEventListener('click', () => {openPopup(popupEditProfile); getInfo(); enableButton(editForm)});
-popupAddCardButton.addEventListener('click', () => openPopup(popupAddCard));
+popupEditButton.addEventListener('click', () => {openPopup(popupEditProfile); cleanErrorMessages(); getInfo(); enableButton(editForm);});
+popupAddCardButton.addEventListener('click', () => {openPopup(popupAddCard); cleanErrorMessages(); resetSubmitButton(addForm)});
 editForm.addEventListener('submit', editFormSubmitHandler);
 addForm.addEventListener('submit', addFormSubmitHandler);
 
