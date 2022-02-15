@@ -7,7 +7,6 @@ import { Card } from './card.js';
 // Popups
 const popupEditProfile = document.querySelector('.popup_type_edit');
 const popupAddCard = document.querySelector('.popup_type_add');
-// const popupCardImage = document.querySelector('.popup_type_image');
 
 // Buttons
 const popupEditButton = document.querySelector('.profile__edit-btn');
@@ -22,8 +21,6 @@ const inputLink = document.querySelector('.popup__input_type_card-link');
 // Info
 const profileName = document.querySelector('.profile__name');
 const profileAbout = document.querySelector('.profile__about');
-// const popupImage = document.querySelector('.popup__card-image');
-// const popupImageCaption = document.querySelector('.popup__image-caption');
 //cardTemplate
 
 //validation
