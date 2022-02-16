@@ -60,20 +60,6 @@ function addFormSubmitHandler () {
   resetSubmitButton(addForm);
 }
 
-// clean input
-function cleanErrorMessages () {
-  const curretForm = document.querySelector('.popup_opened');
-  const spans = curretForm.querySelectorAll('.popup__input-error');
-    spans.forEach((elem) => {elem.textContent = ''});
-  const inputs = curretForm.querySelectorAll('.popup__input');
-    inputs.forEach((elem) => {
-      elem.value = ''; 
-      if (elem.classList.contains('popup__input_type_error')) {
-        elem.classList.remove('popup__input_type_error');
-      };
-    });
-}
-
 //disable button
 function resetSubmitButton (item) {
   const button = item.querySelector('.popup__save-btn');
@@ -101,10 +87,7 @@ popups.forEach((popup) => {
 });
 
 // EvtListeners
-popupEditButton.addEventListener('click', () => {openPopup(popupEditProfile); cleanErrorMessages(); getInfo(); enableButton(editForm);});
-popupAddCardButton.addEventListener('click', () => {openPopup(popupAddCard); cleanErrorMessages(); resetSubmitButton(addForm)});
+popupEditButton.addEventListener('click', () => {openPopup(popupEditProfile); editFormValidator.cleanErrorMessages(); getInfo(); editFormValidator.enableButton()});
+popupAddCardButton.addEventListener('click', () => {openPopup(popupAddCard); addFormValidator.cleanErrorMessages(); addFormValidator.resetSubmitButton()});
 editForm.addEventListener('submit', editFormSubmitHandler);
 addForm.addEventListener('submit', addFormSubmitHandler);
-
-// getinfo need onload page for toggleButtonState func
-getInfo();
