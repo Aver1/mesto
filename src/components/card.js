@@ -1,11 +1,10 @@
-import { openPopup } from './utils.js';
-import {popupCardImage, popupImage, popupImageCaption} from './constants.js';
-
 export class Card {
-  constructor (data, TemplateSelector) {
+  constructor (data, TemplateSelector, handlePreviewInspector) {
+  
     this._TemplateSelector = document.querySelector(TemplateSelector).content; 
     this._name = data.name;
     this._link = data.link
+    this._handlePreviewInspector = handlePreviewInspector;
   }
 
     _handleLikeIcon = () => {
@@ -15,15 +14,9 @@ export class Card {
     _handleDeleteCard = () => {
       this._cardElement.remove();
     }
-
-    _handlePreviewInspector = () => {
-      popupImage.src = this._link;
-      popupImage.alt = this._name;
-      popupImageCaption.textContent = this._name;
-      openPopup(popupCardImage);
-    }
-
+    
     addCard = () => {
+  
     this._cardElement = this._TemplateSelector.querySelector('.card').cloneNode(true);
     
     //fill
@@ -41,7 +34,9 @@ export class Card {
     deleteButton.addEventListener('click', this._handleDeleteCard);
 
     // card Image inspector 
-    cardImage.addEventListener('click', this._handlePreviewInspector);
+    cardImage.addEventListener('click', () => {
+      this._handlePreviewInspector(this._name, this._link);
+    });
     
     return this._cardElement;
   }
