@@ -1,6 +1,6 @@
-import { FormValidator } from '../components/validate.js';
+import { FormValidator } from '../components/FormValidator.js';
 import { config, initialCards, popupEditButton, popupAddCardButton, editForm, popupName, popupAbout, addForm } from '../components/utils/constants.js';
-import { Card } from '../components/card.js';
+import { Card } from '../components/Card.js';
 import Section from '../components/Section.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithImage from '../components/PopupWithImage.js';
@@ -19,6 +19,11 @@ addFormValidator.enableValidation();
 
 const user = new UserInfo ({nameSelector: '.profile__name', aboutSelector: '.profile__about'});
 
+function createCard(item) {
+  const card = new Card (item, '#card-template', handleCardClick);
+  const cardElement = card.addCard();
+  return cardElement
+}
 
 // PopupEditClass
 const editPopup = new PopupWithForm ('.popup_type_edit', {handleFormSubmit: (items) => {
@@ -37,18 +42,14 @@ function handleCardClick(name, link) {
 
 //PopUpAddCard
 const addPopup = new PopupWithForm ('.popup_type_add', {handleFormSubmit: (items) => {
-  const card = new Card ({name: items['popup-name'], link: items['popup-link']}, '#card-template', handleCardClick);
-  const cardElement = card.addCard();
-  cards.addItem(cardElement);
+  cards.addItem(createCard({name: items['popup-name'], link: items['popup-link']}));
   }
 });
 addPopup.setEventListeners();
 
 // add cards onload
 const cards = new Section ({items: initialCards, renderer: (item) => {
-  const card = new Card (item, '#card-template', handleCardClick);
-  const cardElement = card.addCard();
-  cards.addItem(cardElement);
+  cards.addItem(createCard(item));
   }
   }, '.cards');
   cards.renderItems();
