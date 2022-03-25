@@ -6,6 +6,7 @@ export class Card {
     this._likes = data.likes;
     this._id = data._id;
     this._userId = user;
+    this._userCardOwnerId = data.userId;
     this._ownerId = data.ownerId;
 
     this._handlePreviewInspector = handlePreviewInspector;
@@ -70,7 +71,7 @@ export class Card {
 
     this.setCardLikes(this._likes);
 
-    if (this._userId !== this._ownerId) {
+    if (this._userCardOwnerId !== this._ownerId) {
       this._deleteButton.style.display = 'none';
     }
     
