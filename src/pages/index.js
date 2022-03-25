@@ -9,28 +9,17 @@ import { api } from '../components/Api.js';
 
 let userId;
 
-api.getProfile()
-  .then((res) => {
-    user.setUserInfo({name: res.name, about: res.about});
-    user.setUserAvatar(res);
-    userId = res._id;
-  });
+Promise.all([api.getProfile(), api.getInitialCards()])
+  .then(([userData, cardList]) => {
+      user.setUserInfo({name: userData.name, about: userData.about});
+      user.setUserAvatar(userData);
+      userId = userData._id;
 
-api.getInitialCards()
-  .then(cardList => {
-    cardList.forEach((data) => {
-      const card = createCard({
-        name: data.name,
-        link: data.link,
-        likes: data.likes,
-        _id: data._id,
-        userId: userId,
-        ownerId: data.owner._id
-      })
-
-      cards.addItem(card);
-    })
+      cards.renderItems(cardList.reverse());
   })
+  .catch(err => {
+    console.log(err);
+  });
 
 import './index.css';
 
@@ -48,7 +37,7 @@ editAvatarFormValidator.enableValidation();
 const user = new UserInfo ({nameSelector: '.profile__name', aboutSelector: '.profile__about', avatarSelector: '.profile__avatar'});
 
 function createCard(item) {
-  const card = new Card (item, '#card-template', handleCardClick, 
+  const card = new Card (item, userId, '#card-template', handleCardClick, 
     (id) => {
       confirmPopupCardDel.open();
       confirmPopupCardDel.changeSubmitHander(() => {
@@ -101,19 +90,6 @@ function handleCardClick(name, link) {
   popupImageOpen.setEventListeners();
 }
 
-//card delete
-// function handleDelCardClick (id) {
-//   confirmPopupCardDel.open();
-//   confirmPopupCardDel.changeSubmitHander(() => {
-//     api.deleteCard(id)
-//       .then(res => {
-//         card.deleteCard();
-//         confirmPopupCardDel.close();
-//         console.log(res);
-//       })
-//   });
-// }
-
 //PopUpAddCard
 const addPopup = new PopupWithForm ('.popup_type_add', (items) => {
   api.addCard(items['popup-name'], items['popup-link'])
@@ -121,21 +97,21 @@ const addPopup = new PopupWithForm ('.popup_type_add', (items) => {
   .finally(() => {
     addPopup.close();
   })
-  // cards.addItem(createCard({name: items['popup-name'], link: items['popup-link']}));
-  }
-);
+});
+
 addPopup.setEventListeners();
 
-// add cards onload
-// const cards = new Section ({items: initialCards, renderer: (item) => {
-//   cards.addItem(createCard(item));
-//   }
-//   }, '.cards');
-const cards = new Section ({items: [], renderer: (item) => {
-  cards.addItem(createCard(item));
-  }
+const cards = new Section ({renderer: (item) => {
+  cards.addItem(createCard({
+    name: item.name,
+    link: item.link,
+    likes: item.likes, 
+    _id: item._id,
+    userId: userId,
+    ownerId: item.owner._id
+  }));
+}
 }, '.cards');
-  cards.renderItems();
 
 function getInfo() {
   const curretData = user.getUserInfo();

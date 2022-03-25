@@ -1,11 +1,11 @@
 export class Card {
-  constructor (data, TemplateSelector, handlePreviewInspector, handleDeleteClick, handleLikeClick) {
+  constructor (data, user, TemplateSelector, handlePreviewInspector, handleDeleteClick, handleLikeClick) {
     this._TemplateSelector = document.querySelector(TemplateSelector).content; 
     this._name = data.name;
     this._link = data.link
     this._likes = data.likes;
     this._id = data._id;
-    this._userId = data.userId;
+    this._userId = user;
     this._ownerId = data.ownerId;
 
     this._handlePreviewInspector = handlePreviewInspector;
@@ -15,7 +15,7 @@ export class Card {
 
     isLiked() {
       const UserLikedCard = this._likes.find(user => user._id === this._userId);
-      
+
       return UserLikedCard;
     }
 
