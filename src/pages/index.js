@@ -23,7 +23,7 @@ api.getInitialCards()
         name: data.name,
         link: data.link,
         likes: data.likes,
-        id: data._id,
+        _id: data._id,
         userId: userId,
         ownerId: data.owner._id
       })
@@ -61,6 +61,7 @@ function createCard(item) {
       });
     },
     (id) => {
+      console.log(id);
       if (card.isLiked()) {
         api.deleteLike(id)
         .then((res) => {
@@ -68,7 +69,7 @@ function createCard(item) {
         // console.log(res);
         });
       } 
-      else {
+      if (!card.isLiked()) {
         api.addLike(id)
         .then((res) => {
           card.setCardLikes(res.likes);

@@ -4,7 +4,7 @@ export class Card {
     this._name = data.name;
     this._link = data.link
     this._likes = data.likes;
-    this._id = data.id;
+    this._id = data._id;
     this._userId = data.userId;
     this._ownerId = data.ownerId;
 
@@ -15,7 +15,7 @@ export class Card {
 
     isLiked() {
       const UserLikedCard = this._likes.find(user => user._id === this._userId);
-
+      
       return UserLikedCard;
     }
 
