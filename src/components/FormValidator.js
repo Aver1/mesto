@@ -4,7 +4,6 @@ export class FormValidator {
     this._form = form
     this._settings = settings;
     this._inputs = this._form.querySelectorAll(this._settings.inputSelector);
-    this._spans = this._form.querySelectorAll(this._settings.spanSelector);
   }
 
   _showError(input) {
@@ -52,11 +51,9 @@ export class FormValidator {
   };
 
   cleanErrorMessages () {
-    this._spans.forEach((elem) => {elem.textContent = ''});
     this._inputs.forEach((elem) => {
-        if (elem.classList.contains(this._settings.inputErrorClass)) {
-          this._hideError(elem);
-        };
+      this._errorTarget = this._form.querySelector(`.${elem.id}-error`);
+      this._hideError(elem);
     });
   }
 
