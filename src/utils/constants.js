@@ -1,6 +1,7 @@
 export const config = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
+  spanSelector: '.popup__input-error',
   submitButtonSelector: '.popup__save-btn',
   inactiveButtonClass: 'popup__save-btn_type_disabled',
   inputErrorClass: 'popup__input_type_error',

@@ -3,6 +3,8 @@ export class FormValidator {
   constructor (settings, form) {
     this._form = form
     this._settings = settings;
+    this._inputs = this._form.querySelectorAll(this._settings.inputSelector);
+    this._spans = this._form.querySelectorAll(this._settings.spanSelector);
   }
 
   _showError(input) {
@@ -38,7 +40,7 @@ export class FormValidator {
   _validateInput (input) {
     this._errorTarget = this._form.querySelector(`.${input.id}-error`);
   
-    let _isValid = input.validity.valid;
+    const _isValid = input.validity.valid;
     this._errorText = input.validationMessage;
   
     if (_isValid) {
@@ -50,15 +52,12 @@ export class FormValidator {
   };
 
   cleanErrorMessages () {
-    const spans = this._form.querySelectorAll('.popup__input-error');
-      spans.forEach((elem) => {elem.textContent = ''});
-    const inputs = this._form.querySelectorAll('.popup__input');
-      inputs.forEach((elem) => {
-        elem.value = ''; 
-        if (elem.classList.contains('popup__input_type_error')) {
+    this._spans.forEach((elem) => {elem.textContent = ''});
+    this._inputs.forEach((elem) => {
+        if (elem.classList.contains(this._settings.inputErrorClass)) {
           this._hideError(elem);
         };
-      });
+    });
   }
 
   enableValidation() {
@@ -66,13 +65,12 @@ export class FormValidator {
     this._form.addEventListener('submit', (evt) => {
       evt.preventDefault();
     });
-    const inputs = this._form.querySelectorAll(this._settings.inputSelector);
-    inputs.forEach((input) => {
+    this._toggleButton();
+    this._inputs.forEach((input) => {
       input.addEventListener('input', () => {
       this._validateInput(input);
       this._toggleButton();
       });
-      this._toggleButton();
     });
   }
 };
