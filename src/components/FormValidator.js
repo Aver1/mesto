@@ -50,7 +50,7 @@ export class FormValidator {
     };
   };
 
-  cleanErrorMessages () {
+  cleanErrorMessages() {
     this._inputs.forEach((elem) => {
       this._errorTarget = this._form.querySelector(`.${elem.id}-error`);
       this._hideError(elem);
